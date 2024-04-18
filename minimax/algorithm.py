@@ -6,6 +6,7 @@ WHITE = (255, 255, 255)
 #added time delay variable to set time delay
 timedelay = 0
 
+#added alpha/beta values for A/B pruning, also added 'maxer' to keep track of which color is the root of minimax tree
 def minimax(position, depth, max_player, maxer, game, alpha, beta):
     #Added this ifelse to determine which player is max/min
     if(maxer == WHITE):
