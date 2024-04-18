@@ -28,24 +28,26 @@ def main():
     while run:
         count += 1
         if count == 10:
+            #time.sleep(10)
             count = 0
             
         clock.tick(FPS)
         if game.turn == WHITE:
-            value, new_board = minimax(game.get_board(), 3, WHITE, game, float('-inf'), float('inf'))
+            value, new_board = minimax(game.get_board(), 3, True, WHITE, game, float('-inf'), float('inf'))
             #tracks count, breaks if old white value equals new value 9 moves later
             if(count == 0):
                 white_value = value
             if(count == 9):
                 if(white_value == value):
                     print("cycle detected in white")
-                    break
-
+                    #break
+        
             #added "if new_board == None" to check if player cannot play and therefore loses
             if new_board == None:
-                print("White Wins")
+                print("Red Wins")
                 break
             game.ai_move(new_board)
+            print('white made a move')
         
         
 
@@ -75,20 +77,23 @@ def main():
             #checks current turn to allow AI to play for RED, disable above event check to allow AI vs. AI
             #added "if new_board == None" to check if player cannot play and therefore loses
         if game.turn == RED:
-            value, new_board = minimax(game.get_board(), 3, RED, game, float('-inf'), float('inf'))
+            value, new_board = minimax(game.get_board(), 3, True, RED, game, float('-inf'), float('inf'))
             #tracks count, breaks if old white value equals new value 9 moves later
             if(count == 0):
                 red_value = value
             if(count == 9):
                 if(red_value == value):
                     print("cycle detected in red")
-                    break
+                    #break
             if new_board == None:
                 print("White Wins")
                 break
             game.ai_move(new_board)
+            print('red made a move')
+        
 
         game.update()
+        #time.sleep(5)
     
     pygame.quit()
     end = time.time()
