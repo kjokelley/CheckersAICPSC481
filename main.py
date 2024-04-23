@@ -27,13 +27,13 @@ def main():
     white_value = 0
     while run:
         count += 1
-        if count == 10:
-            #time.sleep(10)
-            count = 0
+        if count == 500:
+            break
+            #ount = 0
             
         clock.tick(FPS)
         if game.turn == WHITE:
-            value, new_board = minimax(game.get_board(), 3, True, WHITE, game, float('-inf'), float('inf'))
+            value, new_board = minimax(game.get_board(), 2, True, WHITE, game, float('-inf'), float('inf'))
             #tracks count, breaks if old white value equals new value 9 moves later
             if(count == 0):
                 white_value = value
@@ -41,13 +41,19 @@ def main():
                 if(white_value == value):
                     print("cycle detected in white")
                     #break
-        
+
             #added "if new_board == None" to check if player cannot play and therefore loses
             if new_board == None:
                 print("Red Wins")
                 break
             game.ai_move(new_board)
-            print('white made a move')
+            print('white made a move ', value)
+            #print(value)
+            #for piece in game.get_board().get_all_pieces(RED):
+                #print(game.get_board().get_valid_moves(piece))
+                #time.sleep(10)
+            #break   
+
         
         
 
@@ -77,7 +83,7 @@ def main():
             #checks current turn to allow AI to play for RED, disable above event check to allow AI vs. AI
             #added "if new_board == None" to check if player cannot play and therefore loses
         if game.turn == RED:
-            value, new_board = minimax(game.get_board(), 3, True, RED, game, float('-inf'), float('inf'))
+            value, new_board = minimax(game.get_board(), 2, True, RED, game, float('-inf'), float('inf'))
             #tracks count, breaks if old white value equals new value 9 moves later
             if(count == 0):
                 red_value = value
@@ -89,7 +95,9 @@ def main():
                 print("White Wins")
                 break
             game.ai_move(new_board)
-            print('red made a move')
+            print('red made a move ', value)
+            #print(value)
+
         
 
         game.update()
