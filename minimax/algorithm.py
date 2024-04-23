@@ -32,44 +32,55 @@ def minimax(position, depth, max_player, maxer, game, alpha, beta):
         maxEval = float('-inf')
         best_move = None
         #moves = get_all_moves(position, maxer, game)
+        maxval = 1
+        print(maxer, " ", maxval, " ", maxEval, " ", alpha, " ", beta)
 
         for move in get_all_moves(position, maxer, game):
+            maxval += 1
             evaluation = minimax(move, depth-1, False, maxer, game, alpha, beta)[0]
             maxEval = max(maxEval, evaluation)
             #print("MAXER: value ", maxEval, " alpha: ", alpha, " Beta: ", beta)
             alpha = max(alpha, maxEval)
-            if(maxEval > beta):
+            if(maxEval >= beta):
                 #print("max prune, depth: ", depth)
-                if maxEval == evaluation:
-                    best_move = move
-                return maxEval, best_move  
+                #if maxEval == evaluation:
+                    #best_move = move
+                return maxEval, move  
                 #break 
             #if beta <= alpha:
                 #break
             if maxEval == evaluation:
                 best_move = move
+            #print(maxEval)
+            print(maxer, " ", maxval, " ", maxEval, " ", alpha, " ", beta)
+
         return maxEval, best_move
     else:
+        minval = 0
         #print('mining')
         minEval = float('inf')
         best_move = None
         for move in get_all_moves(position, miner, game):
+            minval += 1
             evaluation = minimax(move, depth-1, True, maxer, game, alpha, beta)[0]
             minEval = min(minEval, evaluation)
             #print("MINER: value ", minEval, " alpha: ", alpha, " Beta: ", beta)
             beta = min(beta, minEval)
-            if(minEval < alpha):
-                if(minEval == evaluation):
-                    best_move = move
+            if(minEval <= alpha):
+                #if(minEval == evaluation):
+                    #best_move = move
                 #print("min prune, depth: ", depth)
                 #   best_move = move
-                return minEval, best_move
+                return minEval, move
                 #break
             #if(beta <= alpha):
                 #break
+            
 
             if minEval == evaluation:
                 best_move = move
+            #print(minEval)
+            print(miner, " ", minval, " ", minEval, " ", alpha, " ", beta)
         return minEval, best_move
 
     """if depth == 0 or position.winner() != None:

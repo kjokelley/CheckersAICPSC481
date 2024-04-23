@@ -27,13 +27,12 @@ def main():
     white_value = 0
     while run:
         count += 1
-        if count == 500:
-            break
-            #ount = 0
+        #print(count)
+       
             
         clock.tick(FPS)
         if game.turn == WHITE:
-            value, new_board = minimax(game.get_board(), 2, True, WHITE, game, float('-inf'), float('inf'))
+            value, new_board = minimax(game.get_board(), 3, True, WHITE, game, float('-inf'), float('inf'))
             #tracks count, breaks if old white value equals new value 9 moves later
             if(count == 0):
                 white_value = value
@@ -83,7 +82,7 @@ def main():
             #checks current turn to allow AI to play for RED, disable above event check to allow AI vs. AI
             #added "if new_board == None" to check if player cannot play and therefore loses
         if game.turn == RED:
-            value, new_board = minimax(game.get_board(), 2, True, RED, game, float('-inf'), float('inf'))
+            value, new_board = minimax(game.get_board(), 5, True, RED, game, float('-inf'), float('inf'))
             #tracks count, breaks if old white value equals new value 9 moves later
             if(count == 0):
                 red_value = value
@@ -102,6 +101,7 @@ def main():
 
         game.update()
         #time.sleep(5)
+        
     
     pygame.quit()
     end = time.time()
