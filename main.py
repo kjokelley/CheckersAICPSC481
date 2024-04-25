@@ -16,30 +16,20 @@ def get_row_col_from_mouse(pos):
     return row, col
 
 def main():
+    #Timer so we can check how long games run for
     start = time.time()
-    run = True
     clock = pygame.time.Clock()
+
+    run = True
     game = Game(WIN)
-    #added count to track # of while functions
-    count = 0
-    #values to track old evaluation functions to track cycles
-    red_value = 0
-    white_value = 0
+    
     while run:
-        count += 1
-        #print(count)
+        
        
             
         clock.tick(FPS)
         if game.turn == WHITE:
             value, new_board = minimax(game.get_board(), 3, True, WHITE, game, float('-inf'), float('inf'))
-            #tracks count, breaks if old white value equals new value 9 moves later
-            if(count == 0):
-                white_value = value
-            if(count == 9):
-                if(white_value == value):
-                    print("cycle detected in white")
-                    #break
 
             #added "if new_board == None" to check if player cannot play and therefore loses
             if new_board == None:
@@ -47,15 +37,9 @@ def main():
                 break
             game.ai_move(new_board)
             print('white made a move ', value)
-            #print(value)
-            #for piece in game.get_board().get_all_pieces(RED):
-                #print(game.get_board().get_valid_moves(piece))
-                #time.sleep(10)
-            #break   
+            
 
         
-        
-
         if game.winner() != None:
             print(game.winner())
             run = False
@@ -68,39 +52,28 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     run = False
-                #Attempt to add different time delays, doesn't work currently
-                """if event.key == pygame.K_0:
-                    minimax.set_time_delay(0)
-                if event.key == pygame.K_1:
-                    minimax.set_time_delay(100)"""
-            #This is what allows for the game to be played by a person, disable turn check below to allow Player vs. AI
+            #This is what allows for the game to be played by a person
             """if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
                 game.select(row, col)"""
 
             #checks current turn to allow AI to play for RED, disable above event check to allow AI vs. AI
-            #added "if new_board == None" to check if player cannot play and therefore loses
         if game.turn == RED:
-            value, new_board = minimax(game.get_board(), 5, True, RED, game, float('-inf'), float('inf'))
-            #tracks count, breaks if old white value equals new value 9 moves later
-            if(count == 0):
-                red_value = value
-            if(count == 9):
-                if(red_value == value):
-                    print("cycle detected in red")
-                    #break
+            value, new_board = minimax(game.get_board(), 3, True, RED, game, float('-inf'), float('inf'))
+
+            #added "if new_board == None" to check if player cannot play and therefore loses
             if new_board == None:
                 print("White Wins")
                 break
             game.ai_move(new_board)
             print('red made a move ', value)
-            #print(value)
+            
+
 
         
 
         game.update()
-        #time.sleep(5)
         
     
     pygame.quit()

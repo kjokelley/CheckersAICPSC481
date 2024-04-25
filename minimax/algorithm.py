@@ -3,141 +3,58 @@ import pygame
 
 RED = (255,0,0)
 WHITE = (255, 255, 255)
-#added time delay variable to set time delay
-timedelay = 0
+
 #added alpha/beta values for A/B pruning, also added 'maxer' to keep track of which color is the root of minimax tree
-def minimax(position, depth, max_player, maxer, game, alpha, beta):
-    #print(alpha)
+def minimax(position, depth, is_max_player, maxer, game, alpha, beta):
     #Added this ifelse to determine which player is max/min
     if(maxer == WHITE):
         miner = RED
     else:
         miner = WHITE
-    #after this initial 
-    #print(maxer)
-    #print(miner)
+
 
     if depth == 0 or position.winner() != None:
-        #if(miner == RED):
-            #return position.evaluate(miner), position
-        #else:
-        #if max_player:
             return position.evaluate(maxer), position
-        #else:
-            return position.evaluate(miner), position
+        
     
     #changed second parameter in get_all_moves to max/min_player so either side can be AI
-    if max_player:
-        #print('maxing')    
+    if is_max_player:
         maxEval = float('-inf')
         best_move = None
-        #moves = get_all_moves(position, maxer, game)
-        maxval = 1
-        print(maxer, " ", maxval, " ", maxEval, " ", alpha, " ", beta)
+        
+        #Used these print statements for debugging. Leaving them in for future use
+        #maxval = 1
+        #print(maxer, " ", maxval, " ", maxEval, " ", alpha, " ", beta)
 
         for move in get_all_moves(position, maxer, game):
-            maxval += 1
+            #maxval += 1
             evaluation = minimax(move, depth-1, False, maxer, game, alpha, beta)[0]
             maxEval = max(maxEval, evaluation)
-            #print("MAXER: value ", maxEval, " alpha: ", alpha, " Beta: ", beta)
             alpha = max(alpha, maxEval)
-            if(maxEval >= beta):
-                #print("max prune, depth: ", depth)
-                #if maxEval == evaluation:
-                    #best_move = move
+            if(maxEval > beta):
                 return maxEval, move  
-                #break 
-            #if beta <= alpha:
-                #break
-            if maxEval == evaluation:
-                best_move = move
-            #print(maxEval)
-            print(maxer, " ", maxval, " ", maxEval, " ", alpha, " ", beta)
-
-        return maxEval, best_move
-    else:
-        minval = 0
-        #print('mining')
-        minEval = float('inf')
-        best_move = None
-        for move in get_all_moves(position, miner, game):
-            minval += 1
-            evaluation = minimax(move, depth-1, True, maxer, game, alpha, beta)[0]
-            minEval = min(minEval, evaluation)
-            #print("MINER: value ", minEval, " alpha: ", alpha, " Beta: ", beta)
-            beta = min(beta, minEval)
-            if(minEval <= alpha):
-                #if(minEval == evaluation):
-                    #best_move = move
-                #print("min prune, depth: ", depth)
-                #   best_move = move
-                return minEval, move
-                #break
-            #if(beta <= alpha):
-                #break
             
-
-            if minEval == evaluation:
-                best_move = move
-            #print(minEval)
-            print(miner, " ", minval, " ", minEval, " ", alpha, " ", beta)
-        return minEval, best_move
-
-    """if depth == 0 or position.winner() != None:
-        #if(miner == RED):
-            #return position.evaluate(miner), position
-        #else:
-        return position.evaluate(maxer), position
-    
-    #changed second parameter in get_all_moves to max/min_player so either side can be AI
-    if max_player:
-        #print('maxing')
-        maxEval = float('-inf')
-        best_move = None
-        for move in get_all_moves(position, maxer, game):
-            evaluation = minimax(move, depth-1, False, maxer, game, alpha, beta)[0]
-            maxEval = max(maxEval, evaluation)
-            alpha = max(alpha, maxEval)
-            print("MAXER: value ", maxEval, " alpha: ", alpha, " Beta: ", beta)
-            print('max')
-            print(maxEval)
-            print('beta')
-            print(beta)
-            if(maxEval >= beta):
-                print("max prune")
-                if maxEval == evaluation:
-                    best_move = move
-                return maxEval, best_move  
-                #break 
-            #if beta <= alpha:
-                #break
             if maxEval == evaluation:
                 best_move = move
+            #print(maxer, " ", maxval, " ", maxEval, " ", alpha, " ", beta)
+
         return maxEval, best_move
     else:
-        #print('mining')
+        #minval = 0
         minEval = float('inf')
         best_move = None
         for move in get_all_moves(position, miner, game):
+            #minval += 1
             evaluation = minimax(move, depth-1, True, maxer, game, alpha, beta)[0]
             minEval = min(minEval, evaluation)
             beta = min(beta, minEval)
-            print("MINER: value ", minEval, " alpha: ", alpha, " Beta: ", beta)
-            print('min')
-            print(minEval)
-            print('beta')
-            print(beta)
-            if(minEval <= alpha):
-                print("min prune")
-                if minEval == evaluation:
-                    best_move = move
-                return minEval, best_move
-                #break
-            #if(beta <= alpha):
-                #break
+            if(minEval < alpha):  
+                return minEval, move
+            
             if minEval == evaluation:
                 best_move = move
-        return minEval, best_move"""
+            #print(miner, " ", minval, " ", minEval, " ", alpha, " ", beta)
+        return minEval, best_move
 
 
 def simulate_move(piece, move, board, game, skip):
@@ -173,8 +90,6 @@ def draw_moves(game, board, piece):
     pygame.display.update()
     pygame.time.delay(0)
 
-#added time delay function to change timedelay
-def set_time_delay(time):
-    timedelay = time
+
 
 
