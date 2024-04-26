@@ -33,7 +33,7 @@ def main():
 
             #added "if new_board == None" to check if player cannot play and therefore loses
             if new_board == None:
-                print("Red Wins")
+                print("White is stuck, Red Wins")
                 break
             game.ai_move(new_board)
             print('white made a move ', value)
@@ -42,6 +42,11 @@ def main():
         
         if game.winner() != None:
             print(game.winner())
+            #added this to clarify winner
+            if(game.winner() == RED):
+                print("Red wins!")
+            else:
+                print("White wins!")
             run = False
 
         #took out manual control and added another turn check for if its currently RED players turn
@@ -64,7 +69,7 @@ def main():
 
             #added "if new_board == None" to check if player cannot play and therefore loses
             if new_board == None:
-                print("White Wins")
+                print("Red is stuck, White Wins")
                 break
             game.ai_move(new_board)
             print('red made a move ', value)
@@ -93,7 +98,6 @@ def main():
                 print("Cycle detected, White wins!")
             else:
                 print("Cycle detected, its a draw!")
-            time.sleep(5)
             break
 
     pygame.quit()
