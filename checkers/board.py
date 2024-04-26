@@ -19,9 +19,9 @@ class Board:
     #changed king weights from .5 to 1.5
     def evaluate(self, max_player):
         if(max_player == WHITE):
-            return self.white_left - self.red_left + (self.white_kings * 1.5 - self.red_kings * 1.5)
+            return self.white_left - self.red_left + (self.white_kings * .5 - self.red_kings * .5)
         else:
-            return self.red_left - self.white_left + (self.red_kings * 1.5 -  self.white_kings* 1.5)
+            return self.red_left - self.white_left + (self.red_kings * .5 -  self.white_kings* .5)
 
     def get_all_pieces(self, color):
         pieces = []

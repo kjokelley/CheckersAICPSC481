@@ -22,14 +22,14 @@ def main():
 
     run = True
     game = Game(WIN)
-    
+    old_positions = []
+    round = 1
+    number_of_cycles = 0
     while run:
-        
-       
             
         clock.tick(FPS)
         if game.turn == WHITE:
-            value, new_board = minimax(game.get_board(), 3, True, WHITE, game, float('-inf'), float('inf'))
+            value, new_board = minimax(game.get_board(), 2, True, WHITE, game, float('-inf'), float('inf'))
 
             #added "if new_board == None" to check if player cannot play and therefore loses
             if new_board == None:
@@ -60,7 +60,7 @@ def main():
 
             #checks current turn to allow AI to play for RED, disable above event check to allow AI vs. AI
         if game.turn == RED:
-            value, new_board = minimax(game.get_board(), 3, True, RED, game, float('-inf'), float('inf'))
+            value, new_board = minimax(game.get_board(), 2, True, RED, game, float('-inf'), float('inf'))
 
             #added "if new_board == None" to check if player cannot play and therefore loses
             if new_board == None:
@@ -68,14 +68,34 @@ def main():
                 break
             game.ai_move(new_board)
             print('red made a move ', value)
-            
-
-
         
+        #This is what checks for cycles, old_positions stores the last five moves, and if the current move is in the list, then it adds to the number of cycles detected
+        if(round <= 5):
+            round += 1
+            old_positions.append(new_board.board)
+        else:
+            for positions in old_positions:
+                if(str(positions) == str(new_board.board)):
+                    print("CYCLE DETECTED")
+                    number_of_cycles += 1
+                    break
+            old_positions.pop(0)
+            old_positions.append(new_board.board)
 
         game.update()
         
-    
+        #If a cycle is detected 10 times, the game ends. This calls the evaluation function to determine who was in the better position, and declares a winner
+        if(number_of_cycles >= 10):
+            winner = game.get_board().evaluate(RED)
+            if(winner > 0):
+                print("Cycle detected, Red wins!")
+            elif(winner < 0):
+                print("Cycle detected, White wins!")
+            else:
+                print("Cycle detected, its a draw!")
+            time.sleep(5)
+            break
+
     pygame.quit()
     end = time.time()
     print(end - start)
