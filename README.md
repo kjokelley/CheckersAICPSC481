@@ -3,11 +3,11 @@ A checkers AI using the minimax algorithm.
 
 Original checkers and minimax algorithm pulled from Techwithtim
 
-The game is run inside a while loop of the main.py file
-The minimax algorithm is in the minimax/algorithm.py file
+The game is run inside a while loop of the main.py file.
+The minimax algorithm is in the minimax/algorithm.py file.
 All data related to the checkers gameplay is stored in the checkers folder.
-The evaluation function is kept in the checkers/board.py file
-The assets folder holds the image for the crown
+The evaluation function is kept in the checkers/board.py file.
+The assets folder holds the image for the crown.
 
 This game requires the PyGame library in order to run. After pulling the code, the easiest way to run this program is by loading it into an IDE such as VScode.
 
